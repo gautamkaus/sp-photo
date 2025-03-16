@@ -1,36 +1,160 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
     margin: 20px;
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    color: #333;
+}
+
+h1, h2 {
+    text-align: center;
+    color: #444;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .upload-section, .gallery-section {
     margin-bottom: 30px;
+    text-align: center;
+}
+
+.upload-section input[type="file"] {
+    padding: 10px;
+    border: 2px dashed #007bff;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    max-width: 300px;
+    box-sizing: border-box;
+}
+
+.upload-section input[type="file"]:hover {
+    background: rgba(255, 255, 255, 1);
+    border-color: #0056b3;
+}
+
+.upload-section button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    width: 100%;
+    max-width: 300px;
+    box-sizing: border-box;
+}
+
+.upload-section button:hover {
+    background: #0056b3;
 }
 
 .gallery {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 15px;
+    justify-content: center;
 }
 
 .gallery img {
-    width: 150px;
+    width: 100%;
+    max-width: 150px;
     height: 150px;
     object-fit: cover;
-    border: 1px solid #ccc;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery img:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 
 .gallery-item {
     position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 150px;
 }
 
 .delete-btn {
     position: absolute;
-    top: 5px;
-    right: 5px;
-    background: red;
+    top: 10px;
+    right: 10px;
+    background: #ff4d4d;
     color: white;
     border: none;
     padding: 5px 10px;
+    border-radius: 5px;
     cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gallery-item:hover .delete-btn {
+    opacity: 1;
+}
+
+
+
+/* Media Queries for Mobile Screens */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .upload-section input[type="file"] {
+        max-width: 100%;
+    }
+
+    .upload-section button {
+        max-width: 100%;
+    }
+
+    .gallery img {
+        max-width: 100px;
+        height: 100px;
+    }
+
+    .gallery-item {
+        max-width: 100px;
+    }
+
+    .delete-btn {
+        padding: 3px 6px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.2rem;
+    }
+
+    .gallery img {
+        max-width: 80px;
+        height: 80px;
+    }
+
+    .gallery-item {
+        max-width: 80px;
+    }
+
+    .delete-btn {
+        padding: 2px 4px;
+        font-size: 10px;
+    }
 }
