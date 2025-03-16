@@ -9,6 +9,15 @@ async function fetchImages() {
             <button class="delete-btn" onclick="deleteImage('${image}')">Delete</button>
         </div>
     `).join("");
+
+    // Animate gallery items
+    gsap.from(".gallery-item", {
+        opacity: 0,
+        y: 20,
+        stagger: 0.1,
+        duration: 0.5,
+        ease: "power2.out",
+    });
 }
 
 // Upload image
