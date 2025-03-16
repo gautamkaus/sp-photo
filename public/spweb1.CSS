@@ -360,19 +360,23 @@ body {
     overflow: hidden;
     border-radius: 10px;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    break-inside: avoid; /* Prevent items from breaking across columns */
 }
 
 .gallery-item img {
     width: 100%;
-    height: auto;
+    height: 100%; /* Ensure images fill the container */
+    object-fit: cover; /* Maintain aspect ratio */
     display: block;
+    border-radius: 10px;
     transition: transform 0.3s ease-in-out;
 }
 
 .gallery-item:hover {
     transform: scale(1.05) translateY(-10px);
     box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+}
+.gallery-item {
+    grid-row-end: span var(--row-span); /* Dynamically set row span */
 }
 
 /* About Section */
@@ -591,15 +595,4 @@ footer {
     }
 }
 
-/* ✅ Responsive Gallery for Mobile */
-@media (max-width: 768px) {
-    .gallery-grid {
-        grid-template-columns: repeat(2, 1fr); /* Show 2 images per row on tablets */
-    }
-}
 
-@media (max-width: 480px) {
-    .gallery-grid {
-        grid-template-columns: 1fr; /* Show 1 image per row on mobile */
-    }
-}
