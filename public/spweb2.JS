@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 galleryItem.classList.add("gallery-item");
 
                 const img = document.createElement("img");
-                img.src = `/uploads/${image}`;
+                img.src = `./uploads/${image}`;
                 img.alt = "Gallery Image";
 
                 galleryItem.appendChild(img);
