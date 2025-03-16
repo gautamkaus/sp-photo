@@ -172,6 +172,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 img.src = `./uploads/${image}`;
                 img.alt = "Gallery Image";
 
+                // Dynamically set row span based on image aspect ratio
+                img.onload = () => {
+                const aspectRatio = img.naturalHeight / img.naturalWidth;
+                const rowSpan = Math.ceil(aspectRatio * 10); // Adjust multiplier for desired row height
+                galleryItem.style.setProperty("--row-span", rowSpan);
+            };
+
                 galleryItem.appendChild(img);
                 galleryGrid.appendChild(galleryItem);
             });
