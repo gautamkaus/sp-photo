@@ -1,0 +1,36 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+.upload-section, .gallery-section {
+    margin-bottom: 30px;
+}
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.gallery img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 1px solid #ccc;
+}
+
+.gallery-item {
+    position: relative;
+}
+
+.delete-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}

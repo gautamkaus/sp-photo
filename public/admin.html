@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="./admin.css">
+</head>
+<body>
+    <h1>Admin Panel</h1>
+
+    <!-- Upload Section -->
+    <div class="upload-section">
+        <h2>Upload Image</h2>
+        <form id="uploadForm">
+            <input type="file" name="image" accept="image/*" required>
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+
+    <!-- Gallery Section -->
+    <div class="gallery-section">
+        <h2>Gallery</h2>
+        <div class="gallery" id="gallery"></div>
+    </div>
+
+    <script src="./admin.js"></script>
+</body>
+</html>

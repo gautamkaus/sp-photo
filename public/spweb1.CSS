@@ -1,0 +1,605 @@
+/* General Styles */
+body {
+    font-family: 'Playfair Display', serif;
+    margin: 0;
+    padding: 0;
+    background: radial-gradient(circle, #1a1a1a, #000);
+    color: #fff;
+    overflow-x: hidden;
+}
+
+/* Navigation */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    position: fixed;
+    top: 0;
+    width: 95%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+}
+
+nav .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+}
+
+/* ✅ Glow Effect for Mobile */
+nav .logo::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -5px;
+    width: 0;
+    height: 3px;
+    background: #9CE6FD;
+    transition: width 0.3s ease-in-out, left 0.3s ease-in-out;
+}
+
+/* ✅ Hover Effect */
+nav .logo:hover {
+    color: #9CE6FD;
+    transform: scale(1.1);
+    text-shadow: 0px 0px 10px rgba(23, 21, 11, 0.7);
+}
+
+nav .logo:hover::before {
+    width: 100%;
+    left: 0;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 18px;
+    transition: color 0.3s ease-in-out;
+}
+
+nav ul li a:hover {
+    color: #9CE6FD;
+}
+
+
+/* ✅ Mobile Navigation (Hide by default) */
+/* ✅ Mobile Menu Icon - Move to Left */
+/* ✅ Mobile Menu Icon - Moved to Left */
+.menu-icon {
+    display: none; /* Hide by default */
+    font-size: 28px;
+    color: white;
+    cursor: pointer;
+    position: absolute;
+    left: 20px;  /* Force it to stay on the left */
+    top: 15px;
+    z-index: 1001; /* Ensure it's above other elements */
+}
+
+/* ✅ Mobile Navigation */
+@media screen and (max-width: 768px) {
+    nav {
+        position: fixed;
+        width: 100%;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    nav .logo {
+        font-size: 20px;
+        letter-spacing: 1.5px;
+    }
+
+    nav .logo:hover {
+        transform: scale(1.05);
+    }
+
+    .menu-icon {
+        display: block; /* Show menu button on mobile */
+    }
+
+    nav ul {
+        display: none;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+        padding: 20px 0;
+    }
+
+    nav ul.show {
+        display: flex;
+    }
+
+    nav ul li {
+        padding: 10px 0;
+    }
+
+}
+
+/* Hero Section */
+.hero {
+    height: 100vh;
+    background: url('./images/www.jpg') no-repeat center center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Dark overlay to make text readable */
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.hero h1 {
+    font-size: 72px;
+    font-weight: bold;
+    margin-bottom: -30px;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+}
+
+.hero p {
+    font-size: 24px;
+    font-family: 'Pacifico', sans-serif;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+}
+/* General Styles */
+body {
+    font-family: 'Playfair Display', serif;
+    margin: 0;
+    padding: 0;
+    background: radial-gradient(circle, #1a1a1a, #000);
+    color: #fff;
+    overflow-x: hidden;
+}
+
+/* Hero Section */
+.hero {
+    height: 100vh;
+    background: url('./images/www.jpg') no-repeat center center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Dark overlay */
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+/* ✅ LOGO FIX */
+.logo-container {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.5s ease-in-out;
+    z-index: 2;
+}
+
+/* ✅ LOGO IMAGE EFFECTS */
+.logo-img {
+    width: 150px;
+    height: auto;
+    transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
+}
+
+/* ✅ Logo Hover Effects */
+.logo-container:hover .logo-img {
+    transform: scale(1.2);
+    filter: drop-shadow(0px 0px 30px rgba(255, 255, 255, 1));
+}
+
+/* ✅ Full-Screen Flash Effect */
+.flash-effect {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease-in-out;
+    z-index: 9999;
+}
+
+.captured-image-container {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the container */
+    background: rgba(0, 0, 0, 0.9);
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    z-index: 10000;
+    width: 90%; /* Adjusted for small screens */
+    max-width: 400px;
+    transition: transform 0.3s ease-in-out; /* Keep transition for smooth movements */
+}
+
+.captured-image {
+    border: 2px solid #fff; /* Add a thin white border around the image */
+    border-radius: 8px; /* Rounded corners for the image */
+    width: 100%; /* Make the image responsive */
+    height: auto; /* Maintain the aspect ratio */
+}
+
+/* ✅ Captured Image */
+#capturedImage {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* ✅ Close Button */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+}
+
+/* ✅ "Moment Captured" Text */
+.captured-image-container {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotateX(5deg) rotateY(5deg); /* Adds subtle 3D rotation */
+    background: rgba(0, 0, 0, 0.9);
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7), 0 5px 5px rgba(255, 255, 255, 0.3); /* 3D shadow effect */
+    z-index: 10000;
+    width: 80%; /* Default width for larger screens */
+    max-width: 500px; /* Max width for larger screens */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Smooth transitions */
+}
+
+/* Example of the capture-text with emojis */
+.capture-text::after {
+    content: " 📸🤳📷"; /* Add relevant emojis for photography, selfie, and moments */
+    font-size: 22px; /* Adjust size of emojis */
+    display: block;
+    margin-top: 5px;
+}
+
+/* ✅ Save Image Button */
+.save-btn {
+    background: rgb(247, 247, 247);
+    color: black;
+    padding: 12px 20px; /* Larger padding for easy tap */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 12px;
+    font-size: 18px; /* Larger font size */
+    width: 100%;
+}
+
+.save-btn:hover {
+    background: hsl(210, 90%, 77%);
+}
+
+/* Gallery Section */
+.gallery {
+    padding: 100px 50px;
+    text-align: center;
+}
+
+.gallery h2 {
+    font-size: 48px;
+    margin-bottom: 50px;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive columns */
+    gap: 20px; /* Space between items */
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    break-inside: avoid; /* Prevent items from breaking across columns */
+}
+
+.gallery-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease-in-out;
+}
+
+.gallery-item:hover {
+    transform: scale(1.05) translateY(-10px);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+}
+
+/* About Section */
+.about {
+    padding: 100px 50px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.about h2 {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.about p {
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Contact Section */
+.contact {
+    padding: 80px 50px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+}
+
+.contact h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.contact-details p {
+    font-size: 20px;
+    margin: 10px 0;
+    font-weight: 300;
+}
+
+.contact-details a {
+    color: #ffcc00;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease-in-out;
+}
+
+.contact-details a:hover {
+    color: #ffd633;
+    text-shadow: 0px 0px 10px rgba(255, 204, 0, 0.7);
+}
+
+
+/* Footer */
+footer {
+    padding: 20px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.8);
+    font-family: 'Roboto', sans-serif;
+}
+
+.side-text-container {
+    position: fixed;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.7; /* Initially faded */
+    transition: opacity 0.5s ease-in-out; /* Fade effect */
+    z-index: 1000; /* To make sure it stays on top */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.side-text {
+    writing-mode: vertical-rl; /* Makes the text vertical */
+    font-size: 10px;
+    font-family: 'Roboto', sans-serif;
+    color: #ebe2e2;
+    transform: rotate(180deg); /* Rotates text for proper orientation */
+    transition: transform 0.3s ease-in-out;
+}
+.side-text-container:hover {
+    opacity: 0.7;
+}
+
+.side-text-container:hover .side-text {
+    transform: rotate(180deg) scale(1.5);
+}
+
+/* ✅ General Mobile Styles */
+@media (max-width: 768px) {
+
+    .side-text-container {
+        top: 70%; /* Adjusted position to avoid overlap with other content on small screens */
+        opacity: 0.9; /* Increased opacity on mobile */
+        padding: 5px; /* Reduced padding for mobile */
+    }
+
+    .side-text {
+        font-size: 12px;/* Slightly smaller font for mobile */
+        letter-spacing: 1px; /* Reduce letter-spacing on smaller screens */
+    }
+
+    .captured-image-container {
+        width: 90%; /* Increase width slightly on smaller screens */
+        max-width: 350px; /* Smaller max-width for mobile */
+    }
+
+    nav {
+        flex-direction: column;
+        align-items: center;
+        padding: 15px;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 15px;
+        padding: 0;
+    }
+
+    .hero {
+        height: 100vh;
+        background-size: cover;
+        background-position: center;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .hero h1 {
+        font-size: 36px; /* Reduce heading size */
+        margin-bottom: 0;
+    }
+
+    .hero p {
+        font-size: 18px; /* Smaller paragraph size */
+        padding: 0 15px; /* Add spacing so it doesn't touch screen edges */
+        text-align: center;
+    }
+
+    .logo-container {
+        top: 10%;
+    }
+
+    .logo-img {
+        width: 120px;
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on tablets */
+    }
+
+    .about, .contact {
+        padding: 50px 20px;
+    }
+
+    .about h2, .contact h2 {
+        font-size: 32px;
+    }
+
+    .contact-details p {
+        font-size: 18px;
+    }
+
+    footer {
+        padding: 15px;
+        font-size: 14px;
+    }
+}
+
+/* ✅ For Small Mobile Screens */
+@media (max-width: 480px) {
+
+    .side-text-container {
+        top: 80%; /* Lower the text even more to avoid overlap */
+        opacity: 1; /* Fully visible on very small screens */
+    }
+
+    .side-text {
+        font-size: 10px;/* Further reduce the font size for very small screens */
+    }
+
+    .captured-image-container {
+        width: 90%; /* Keep it responsive */
+        max-width: 300px; /* Even smaller on very small screens */
+    }
+
+
+    .capture-text {
+        font-size: 6vw; /* Increases readability */
+    }
+
+    .save-btn {
+        font-size: 20px; /* More touch-friendly */
+        padding: 14px;
+    }
+
+    .close-btn {
+        font-size: 30px;
+    }
+
+    .hero h1 {
+        font-size: 36px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .gallery-item img {
+        width: 100%;
+    }
+
+    .gallery-grid {
+        grid-template-columns: 1fr; /* 1 column on mobile */
+    }
+}
+
+/* ✅ Responsive Gallery for Mobile */
+@media (max-width: 768px) {
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr); /* Show 2 images per row on tablets */
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery-grid {
+        grid-template-columns: 1fr; /* Show 1 image per row on mobile */
+    }
+}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>S P Photography</title>
+    <link rel="stylesheet" href="./spweb1.CSS">
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+</head>
+<body>
+    <audio id="cameraSound" src="./audio/cmas.mp3"></audio>
+    <video id="cameraFeed" autoplay playsinline style="display: none;"></video>
+
+    <!-- Flash Effect -->
+    <div id="flashEffect" class="flash-effect"></div>
+
+    <!-- Captured Image Display -->
+    <div id="capturedImageContainer" class="captured-image-container">
+        <span id="closeCapture" class="close-btn">×</span>
+        <img id="capturedImage" alt="Captured Moment">
+        <p class="capture-text">Moment Captured</p>
+        <button id="saveImage" class="save-btn">Save Image</button>
+    </div>
+
+    <div class="side-text-container">
+        <p class="side-text">Tap a Logo</p>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="menu-icon" onclick="toggleMenu()">☰</div>
+        <div class="logo">S P Photography</div>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="logo-container">
+            <img src="./images/ppp.png" alt="Logo" class="logo-img">
+        </div>
+        <div class="hero-content">
+            <h1>Capturing Timeless Moments</h1>
+            <p>Visual Mastery</p>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery">
+        <h2>Gallery</h2>
+        <div class="gallery-grid" id="galleryGrid">
+            <!-- Images will be dynamically loaded here -->
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <h2>About Us</h2>
+        <p>We are a luxury photography studio dedicated to capturing the essence of your most precious moments with artistry and precision.</p>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <h2>Contact Us</h2>
+        <div class="contact-details">
+            <p><strong>📍 Address:</strong> Gondiya , Maharashtra , India</p>
+            <p><strong>📞 Phone:</strong> +91 7666750073</p>
+            <p><strong>📧 Email:</strong> shrikantpatle21@gmail.com</p>
+            <p><strong>📸 Instagram:</strong> <a href="https://instagram.com/sp_.photography_" target="_blank">@sp_.photography_</a></p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2023 SP Photography. All rights reserved.</p>
+    </footer>
+
+    <script src="spweb2.JS"></script>
+</body>
+</html>
