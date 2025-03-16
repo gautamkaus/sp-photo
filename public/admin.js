@@ -1,6 +1,6 @@
 // Fetch and display images
 async function fetchImages() {
-    const response = await fetch("/images");
+    const response = await fetch("./images");
     const images = await response.json();
     const gallery = document.getElementById("gallery");
     gallery.innerHTML = images.map(image => `
@@ -25,7 +25,7 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
 
-    const response = await fetch("/upload", {
+    const response = await fetch("./upload", {
         method: "POST",
         body: formData,
     });
