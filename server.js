@@ -3,31 +3,30 @@ const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
 const cors = require("cors");
+const auth = require("basic-auth"); // Add this
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 
-// Configure Multer for file uploads
+// Configure directories
 const publicDir = path.join(__dirname, 'public');
 const uploadDir = path.join(__dirname, 'uploads');
 const imagesDir = path.join(__dirname, 'images');
 
 // Ensure directories exist
 if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir);
-    console.log('Created uploads directory');
+  fs.mkdirSync(uploadDir);
+  console.log('Created uploads directory');
 }
 if (!fs.existsSync(imagesDir)) {
-    fs.mkdirSync(imagesDir);
-    console.log('Created images directory');
+  fs.mkdirSync(imagesDir);
+  console.log('Created images directory');
 }
 
 // Serve static files from public directory
 app.use(express.static(publicDir));
-
-// Serve images from upload and images directories
 app.use('/uploads', express.static(uploadDir));
 app.use('/images', express.static(imagesDir));
 
@@ -44,44 +43,32 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// Serve index.html at root
+// Serve index.html at root (publicly accessible)
 app.get('/', (req, res) => {
     console.log('GET / - Serving index.html');
     res.sendFile(path.join(publicDir, 'index.html'));
 });
 
-// Serve admin.html at /admin
-app.get('/admin', (req, res) => {
+// Basic Authentication Middleware
+const adminAuth = (req, res, next) => {
+    const user = auth(req);
+    const adminUsername = process.env.ADMIN_USERNAME || "sp_adminapnel";
+    const adminPassword = process.env.ADMIN_PASSWORD || "@sp_admiinpanel2025"; // Set your password (change this!)
+
+    if (!user || user.name !== adminUsername || user.pass !== adminPassword) {
+        res.set('WWW-Authenticate', 'Basic realm="Admin Panel"');
+        return res.status(401).send('Authentication required.');
+    }
+    next();
+};
+
+// Protect admin routes with authentication
+app.get('/admin', adminAuth, (req, res) => {
     console.log('GET /admin - Serving admin.html');
     res.sendFile(path.join(publicDir, 'admin.html'));
 });
 
-// Upload captured shots (to images folder)
-app.post('/upload-captured', upload.single('image'), (req, res) => {
-    console.log('POST /upload-captured - Uploaded captured image:', req.file.filename);
-    res.status(200).json({ message: 'Captured image uploaded', filename: req.file.filename });
-});
-
-// Upload gallery images (to upload folder)
-app.post('/uploads', upload.single('image'), (req, res) => {
-    console.log('POST /uploads - Uploaded gallery image:', req.file.filename);
-    res.status(200).json({ message: 'Image uploaded', filename: req.file.filename });
-});
-
-// Fetch public images (from upload folder)
-app.get('/public-images', (req, res) => {
-    fs.readdir(uploadDir, (err, files) => {
-        if (err) {
-            console.error('GET /public-images - Error reading upload directory:', err);
-            return res.status(500).json({ error: 'Failed to read upload directory', details: err.message });
-        }
-        console.log('GET /public-images - Public images served:', files);
-        res.json(files);
-    });
-});
-
-// Fetch all images (for admin: upload + images folders)
-app.get('/all-images', (req, res) => {
+app.get('/all-images', adminAuth, (req, res) => {
     fs.readdir(uploadDir, (err, uploadFiles) => {
         if (err) {
             console.error('GET /all-images - Error reading upload directory:', err);
@@ -102,8 +89,12 @@ app.get('/all-images', (req, res) => {
     });
 });
 
-// Delete image
-app.delete('/delete/:type/:filename', (req, res) => {
+app.post('/uploads', adminAuth, upload.single('image'), (req, res) => {
+    console.log('POST /uploads - Uploaded gallery image:', req.file.filename);
+    res.status(200).json({ message: 'Image uploaded', filename: req.file.filename });
+});
+
+app.delete('/delete/:type/:filename', adminAuth, (req, res) => {
     const { type, filename } = req.params;
     const dir = type === 'captured' ? imagesDir : uploadDir;
     const filePath = path.join(dir, filename);
@@ -115,6 +106,23 @@ app.delete('/delete/:type/:filename', (req, res) => {
         }
         console.log(`DELETE /delete/${type}/${filename} - Deleted image:`, filename);
         res.status(200).json({ message: 'Image deleted' });
+    });
+});
+
+// Public routes (no authentication)
+app.post('/upload-captured', upload.single('image'), (req, res) => {
+    console.log('POST /upload-captured - Uploaded captured image:', req.file.filename);
+    res.status(200).json({ message: 'Captured image uploaded', filename: req.file.filename });
+});
+
+app.get('/public-images', (req, res) => {
+    fs.readdir(uploadDir, (err, files) => {
+        if (err) {
+            console.error('GET /public-images - Error reading upload directory:', err);
+            return res.status(500).json({ error: 'Failed to read upload directory', details: err.message });
+        }
+        console.log('GET /public-images - Public images served:', files);
+        res.json(files);
     });
 });
 
