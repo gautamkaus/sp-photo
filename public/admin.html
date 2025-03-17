@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
-    <link rel="stylesheet" href="./admin.css">
+    <link rel="stylesheet" href="admin.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
 </head>
 <body>
     <h1>Admin Panel</h1>
 
-    <!-- Upload Section -->
     <div class="upload-section">
         <h2>Upload Image</h2>
         <form id="uploadForm">
@@ -19,12 +18,16 @@
         </form>
     </div>
 
-    <!-- Gallery Section -->
     <div class="gallery-section">
         <h2>Gallery</h2>
         <div class="gallery" id="gallery"></div>
     </div>
 
-    <script src="./admin.js"></script>
+    <div class="gallery-section">
+        <h2>Captured Shots</h2>
+        <div class="gallery" id="capturedShots"></div>
+    </div>
+
+    <script src="admin.js"></script>
 </body>
 </html>
