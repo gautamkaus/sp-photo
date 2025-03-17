@@ -1,15 +1,8 @@
 const BASE_URL = window.location.origin;
 
-const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "sp_adminpanel";
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "@sp_admiinpanel2025";
-
 async function fetchImages() {
     try {
-        const response = await fetch(`${BASE_URL}/all-images`, {
-            headers: {
-                'Authorization': 'Basic ' + btoa(`${ADMIN_USERNAME}:${ADMIN_PASSWORD}`)
-            }
-        });
+        const response = await fetch(`${BASE_URL}/all-images`);
         if (!response.ok) {
             const errorData = await response.json();
             throw new Error(`Server error: ${response.status}, ${errorData.error || 'Unknown error'} - ${errorData.details || ''}`);
@@ -70,9 +63,6 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
         const response = await fetch(`${BASE_URL}/uploads`, {
             method: "POST",
             body: formData,
-            headers: {
-                'Authorization': 'Basic ' + btoa(`${ADMIN_USERNAME}:${ADMIN_PASSWORD}`)
-            }
         });
         if (!response.ok) {
             const errorData = await response.json();
@@ -90,9 +80,6 @@ async function deleteImage(type, filename) {
     try {
         const response = await fetch(`${BASE_URL}/delete/${type}/${filename}`, {
             method: "DELETE",
-            headers: {
-                'Authorization': 'Basic ' + btoa(`${ADMIN_USERNAME}:${ADMIN_PASSWORD}`)
-            }
         });
         if (!response.ok) {
             const errorData = await response.json();
