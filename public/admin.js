@@ -1,7 +1,7 @@
 const BASE_URL = window.location.origin;
 
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "sp_adminpanel";
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "@sp_adminpanel2025";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "@sp_admiinpanel2025";
 
 async function fetchImages() {
     try {
