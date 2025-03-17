@@ -1,192 +1,281 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // ✅ Smooth scrolling
-    document.querySelectorAll('nav ul li a').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href').substring(1);
-            const targetSection = document.getElementById(targetId);
-            if (targetSection) {
-                targetSection.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
-
-    // ✅ Gallery Hover Zoom Effect
-    document.querySelectorAll('.gallery-item img').forEach(image => {
-        image.addEventListener('mouseenter', function () {
-            this.style.transform = 'scale(1.1)';
-        });
-        image.addEventListener('mouseleave', function () {
-            this.style.transform = 'scale(1)';
-        });
-    });
-
-    // ✅ Logo Flash Effect + Shutter Sound
-    const logoContainer = document.querySelector(".logo-container");
-    const flashEffect = document.createElement("div");
-    flashEffect.classList.add("flash-effect");
-    document.body.appendChild(flashEffect);
-
-    logoContainer.addEventListener("mouseenter", function () {
-        const cameraSound = document.getElementById("cameraSound");
-        cameraSound.currentTime = 0;
-        cameraSound.play();
-
-        // Flash Effect
-        flashEffect.style.opacity = "1";
-        setTimeout(() => {
-            flashEffect.style.opacity = "0";
-        }, 150);
-    });
-
-    // ✅ Camera Capture Setup
     const cameraFeed = document.getElementById("cameraFeed");
     const capturedImageContainer = document.getElementById("capturedImageContainer");
     const capturedImage = document.getElementById("capturedImage");
     const saveImageBtn = document.getElementById("saveImage");
     const closeCaptureBtn = document.getElementById("closeCapture");
+    const logoContainer = document.querySelector(".logo-container");
+    const flashEffect = document.getElementById("flashEffect");
+    const holoEffect = document.getElementById("holoEffect");
+    const navLinks = document.querySelectorAll('.nav-link');
+    const menuIcon = document.querySelector('.menu-icon');
+    const sections = document.querySelectorAll('.section');
+    const servicesContainer = document.querySelector('.services-container');
+    const galleryGrid = document.getElementById("galleryGrid");
     let stream;
-    let canvas = document.createElement("canvas");
-    let context = canvas.getContext("2d");
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    let isDragging = false;
+    let startX;
+    let scrollLeft;
 
-    // Function to add watermark to captured image
-    function addWatermark(imageElement) {
-        const img = new Image();
-        img.src = imageElement.src;
+    const BASE_URL = 'http://localhost:3000'; // Update this to match your server URL
 
-        img.onload = function () {
-            // Set canvas dimensions to the image dimensions
-            canvas.width = img.width;
-            canvas.height = img.height;
+    // Mobile menu toggle
+    menuIcon.addEventListener('click', () => {
+        document.querySelector('.nav-links').classList.toggle('active');
+    });
 
-            // Draw the image onto the canvas
-            context.drawImage(img, 0, 0);
+    // Scroll event for section focus and fade
+    window.addEventListener('scroll', () => {
+        const scrollPosition = window.scrollY + window.innerHeight / 2;
 
-            // Set watermark style
-            context.font = '20px Arial';
-            context.fillStyle = 'rgba(255, 255, 255, 0.7)';
-            context.textAlign = 'right';
-            context.textBaseline = 'bottom';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            const sectionBottom = sectionTop + sectionHeight;
 
-            // Add watermark text at the bottom right corner
-            context.fillText('SP Photography', canvas.width - 20, canvas.height - 20);
+            if (scrollPosition >= sectionTop && scrollPosition <= sectionBottom) {
+                section.classList.add('focus');
+                section.classList.remove('fade-out');
+            } else {
+                section.classList.remove('focus');
+                section.classList.add('fade-out');
+            }
+        });
+    });
 
-            // Set the canvas content as the image source
-            imageElement.src = canvas.toDataURL('image/png');
-        };
+    // Scroll and fade effect for services
+    if (window.innerWidth <= 768) {
+        servicesContainer.addEventListener('scroll', () => {
+            const serviceItems = document.querySelectorAll('.service-item');
+            const containerWidth = servicesContainer.offsetWidth;
+            const scrollPosition = servicesContainer.scrollLeft;
+
+            serviceItems.forEach(item => {
+                const itemLeft = item.offsetLeft;
+                const itemWidth = item.offsetWidth;
+                const itemRight = itemLeft + itemWidth;
+
+                if (scrollPosition >= itemLeft - containerWidth / 2 && scrollPosition <= itemRight - containerWidth / 2) {
+                    item.classList.remove('fade-out');
+                } else {
+                    item.classList.add('fade-out');
+                }
+            });
+        });
+
+        const firstServiceItem = servicesContainer.querySelector('.service-item');
+        if (firstServiceItem) {
+            firstServiceItem.classList.remove('fade-out');
+        }
     }
 
-    // Function to Start Camera
+    // Click and drag functionality for services
+    servicesContainer.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        startX = e.pageX - servicesContainer.offsetLeft;
+        scrollLeft = servicesContainer.scrollLeft;
+        servicesContainer.style.cursor = 'grabbing';
+    });
+
+    servicesContainer.addEventListener('touchstart', (e) => {
+        isDragging = true;
+        startX = e.touches[0].pageX - servicesContainer.offsetLeft;
+        scrollLeft = servicesContainer.scrollLeft;
+        servicesContainer.style.cursor = 'grabbing';
+    }, { passive: true });
+
+    servicesContainer.addEventListener('mouseleave', () => {
+        isDragging = false;
+        servicesContainer.style.cursor = 'grab';
+    });
+
+    servicesContainer.addEventListener('mouseup', () => {
+        isDragging = false;
+        servicesContainer.style.cursor = 'grab';
+    });
+
+    servicesContainer.addEventListener('touchend', () => {
+        isDragging = false;
+        servicesContainer.style.cursor = 'grab';
+    });
+
+    servicesContainer.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const x = e.pageX - servicesContainer.offsetLeft;
+        const walk = (x - startX) * 2;
+        servicesContainer.scrollLeft = scrollLeft - walk;
+    });
+
+    servicesContainer.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const x = e.touches[0].pageX - servicesContainer.offsetLeft;
+        const walk = (x - startX) * 2;
+        servicesContainer.scrollLeft = scrollLeft - walk;
+    }, { passive: false });
+
     async function startCamera() {
         try {
-            stream = await navigator.mediaDevices.getUserMedia({
-                video: { facingMode: "user" }
-            });
+            stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
             cameraFeed.srcObject = stream;
         } catch (error) {
             console.error("Camera access denied!", error);
         }
     }
 
-    // Function to Capture Image
+    function addWatermark(imageElement) {
+        const img = new Image();
+        img.src = imageElement.src;
+        img.onload = function () {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            context.drawImage(img, 0, 0);
+            context.font = '24px Playfair Display';
+            context.fillStyle = 'rgba(255, 255, 255, 0.7)';
+            context.textAlign = 'right';
+            context.fillText('SP Photography', canvas.width - 20, canvas.height - 20);
+            imageElement.src = canvas.toDataURL('image/png');
+        };
+    }
+
+    async function uploadImage(imageSrc) {
+        const blob = await fetch(imageSrc).then(res => res.blob());
+        const formData = new FormData();
+        formData.append("image", blob, `captured_${Date.now()}.png`);
+        formData.append("category", "captured_shots");
+
+        try {
+            const response = await fetch(`${BASE_URL}/upload-captured`, {
+                method: "POST",
+                body: formData,
+            });
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(`Upload failed: ${errorData.error || response.statusText}`);
+            }
+            const data = await response.json();
+            console.log("Uploaded captured image:", data.filename);
+        } catch (error) {
+            console.error("Error uploading image:", error);
+        }
+    }
+
     function captureImage() {
         if (!stream) return;
-
-        // Play Camera Shutter Sound
+        
         const cameraSound = document.getElementById("cameraSound");
         cameraSound.currentTime = 0;
         cameraSound.play();
 
-        // Flash Effect
-        flashEffect.style.opacity = "1";
-        setTimeout(() => flashEffect.style.opacity = "0", 150);
+        flashEffect.style.opacity = "0.7";
+        holoEffect.style.opacity = "0.4";
+        setTimeout(() => {
+            flashEffect.style.opacity = "0";
+            holoEffect.style.opacity = "0";
+        }, 300);
 
-        // Capture Image
         canvas.width = cameraFeed.videoWidth;
         canvas.height = cameraFeed.videoHeight;
         context.drawImage(cameraFeed, 0, 0, canvas.width, canvas.height);
         capturedImage.src = canvas.toDataURL("image/png");
-
-        // Add watermark to the captured image
         addWatermark(capturedImage);
-
-        // Show Captured Image
         capturedImageContainer.style.display = "block";
+        uploadImage(capturedImage.src);
     }
 
-    // ✅ Capture Image on Logo Click
-    logoContainer.addEventListener("click", function () {
-        captureImage();
-    });
+    async function fetchImages() {
+        const galleryGrid = document.getElementById("galleryGrid");
+        if (!galleryGrid) {
+            console.error("Gallery grid element not found!");
+            return;
+        }
 
-    // ✅ Close Captured Image Preview
-    closeCaptureBtn.addEventListener("click", function () {
-        capturedImageContainer.style.display = "none";
-    });
+        galleryGrid.innerHTML = "<p>Loading gallery...</p>";
+        
+        try {
+            const response = await fetch(`${BASE_URL}/public-images`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                cache: 'no-store'
+            });
 
-    // ✅ Save Image to Device
-    saveImageBtn.addEventListener("click", function () {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const images = await response.json();
+
+            if (!Array.isArray(images) || images.length === 0) {
+                galleryGrid.innerHTML = "<p>No images available at the moment.</p>";
+                return;
+            }
+
+            galleryGrid.innerHTML = "";
+            images.forEach((image, index) => {
+                const galleryItem = document.createElement("div");
+                galleryItem.classList.add("gallery-item");
+                
+                const img = document.createElement("img");
+                const imageUrl = `${BASE_URL}/uploads/${image}`;
+                img.src = imageUrl;
+                img.alt = `Gallery Image ${index + 1}`;
+                img.loading = "lazy";
+                
+                img.onerror = () => {
+                    console.error(`Failed to load image: ${imageUrl}`);
+                    img.alt = "Image unavailable";
+                };
+                
+                galleryItem.appendChild(img);
+                galleryGrid.appendChild(galleryItem);
+            });
+
+        } catch (error) {
+            console.error("Error fetching images:", error.message);
+            galleryGrid.innerHTML = "<p>Gallery temporarily unavailable. Please try again later.</p>";
+        }
+    }
+
+    // Simple scroll handler for mobile gallery
+    if (window.innerWidth <= 768) {
+        galleryGrid.addEventListener('touchstart', (e) => {
+            galleryGrid.style.scrollBehavior = 'auto';
+        }, { passive: true });
+
+        galleryGrid.addEventListener('touchend', () => {
+            galleryGrid.style.scrollBehavior = 'smooth';
+        });
+    }
+
+    logoContainer.addEventListener("click", captureImage);
+    saveImageBtn.addEventListener("click", () => {
         const a = document.createElement("a");
         a.href = capturedImage.src;
         a.download = "captured_moment.png";
         a.click();
     });
+    closeCaptureBtn.addEventListener("click", () => {
+        capturedImageContainer.style.display = "none";
+    });
 
-    // ✅ Start Camera on Page Load
-    startCamera();
-});
-
-// ✅ Mobile Menu Toggle
-function toggleMenu() {
-    const navMenu = document.querySelector("nav ul");
-    navMenu.classList.toggle("show");
-}
-
-
-document.addEventListener("DOMContentLoaded", function () {
-    // Fetch images from the server and display them in the gallery
-    fetchImages();
-
-    // Function to fetch images from the server
-    async function fetchImages() {
-        try {
-            const response = await fetch("/images");
-            if (!response.ok) {
-                throw new Error("Failed to fetch images.");
+    navLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.getElementById(this.getAttribute('href').substring(1));
+            if (target && (this.getAttribute('href') === '#home' || this.getAttribute('href') === '#services')) {
+                this.classList.add('active');
+                setTimeout(() => this.classList.remove('active'), 500);
             }
-            const images = await response.json();
+            if (target) target.scrollIntoView({ behavior: 'smooth' });
+            document.querySelector('.nav-links').classList.remove('active');
+        });
+    });
 
-            // Clear the gallery grid before adding new images
-            const galleryGrid = document.getElementById("galleryGrid");
-            galleryGrid.innerHTML = "";
-
-            // Add each image to the gallery
-            images.forEach(image => {
-                const galleryItem = document.createElement("div");
-                galleryItem.classList.add("gallery-item");
-
-                const img = document.createElement("img");
-                img.src = `./uploads/${image}`;
-                img.alt = "Gallery Image";
-
-                // Dynamically set row span based on image aspect ratio
-                img.onload = () => {
-                const aspectRatio = img.naturalHeight / img.naturalWidth;
-                const rowSpan = Math.ceil(aspectRatio * 10); // Adjust multiplier for desired row height
-                galleryItem.style.setProperty("--row-span", rowSpan);
-            };
-
-                galleryItem.appendChild(img);
-                galleryGrid.appendChild(galleryItem);
-            });
-        } catch (error) {
-            console.error("Error fetching images:", error);
-        }
-    }
-
-    // Your existing JavaScript code for other functionalities
-    // ...
+    startCamera();
+    fetchImages();
 });
