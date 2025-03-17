@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let startX;
     let scrollLeft;
 
-    const BASE_URL = 'http://localhost:3000'; // Update this to match your server URL
+    const BASE_URL = window.location.origin; // Update this to match your server URL
 
     // Mobile menu toggle
     menuIcon.addEventListener('click', () => {
